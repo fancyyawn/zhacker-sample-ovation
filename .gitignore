@@ -1,0 +1,14 @@
+target/
+.settings/
+.project
+.classpath
+*iml
+.idea
+node_modules
+.springBean
+build/
+/agile/
+/log/
+node_modules/
+*.log
+*.jar

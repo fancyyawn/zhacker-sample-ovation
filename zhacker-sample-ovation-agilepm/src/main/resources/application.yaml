@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: agile
+
+server:
+  port: 8083
+
+leveldb.path: /tmp/agiledb
+
+swagger.basePackage: top.zhacker.ddd.agilepm.api

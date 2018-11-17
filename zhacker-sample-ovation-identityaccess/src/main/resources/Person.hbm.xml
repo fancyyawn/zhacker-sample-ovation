@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+    <class name="top.zhacker.ddd.identity.domain.user.person.Person" table="tbl_person" lazy="true">
+        <id name="id" type="long" column="id" unsaved-value="-1">
+            <generator class="foreign">
+                <param name="property">user</param>
+            </generator>
+        </id>
+        <version column="concurrency_version" name="version" type="int" />
+        <component name="contactInformation" class="top.zhacker.ddd.identity.domain.user.person.ContactInformation">
+            <component name="emailAddress" class="top.zhacker.ddd.identity.domain.user.person.EmailAddress">
+                <property name="address" column="contact_information_email_address_address" type="java.lang.String" />
+            </component>
+            <component name="postalAddress" class="top.zhacker.ddd.identity.domain.user.person.PostalAddress">
+                <property name="city" column="contact_information_postal_address_city" type="java.lang.String" />
+                <property name="countryCode" column="contact_information_postal_address_country_code" type="java.lang.String" />
+                <property name="postalCode" column="contact_information_postal_address_postal_code" type="java.lang.String" />
+                <property name="stateProvince" column="contact_information_postal_address_state_province" type="java.lang.String" />
+                <property name="streetAddress" column="contact_information_postal_address_street_address" type="java.lang.String" />
+            </component>
+            <component name="primaryTelephone" class="top.zhacker.ddd.identity.domain.user.person.Telephone">
+                <property name="number" column="contact_information_primary_telephone_number" type="java.lang.String" />
+            </component>
+            <component name="secondaryTelephone" class="top.zhacker.ddd.identity.domain.user.person.Telephone">
+                <property name="number" column="contact_information_secondary_telephone_number" type="java.lang.String" />
+            </component>
+        </component>
+        <component name="name" class="top.zhacker.ddd.identity.domain.user.person.FullName">
+            <property name="firstName" column="name_first_name" type="java.lang.String" />
+            <property name="lastName" column="name_last_name" type="java.lang.String" />
+        </component>
+        <component name="tenantId" class="top.zhacker.ddd.identity.domain.tenant.TenantId">
+            <property name="id" column="tenant_id_id" type="java.lang.String" />
+        </component>
+        <one-to-one name="user" class="top.zhacker.ddd.identity.domain.user.User" cascade="all" lazy="false" constrained="true"/>
+    </class>
+</hibernate-mapping>
