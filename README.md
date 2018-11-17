@@ -15,7 +15,7 @@
 * Mysql + LevelDB：数据库存储数据
 
 
-## 项目组成
+## 项目结构和功能列表
 
 #### zhacker-sample-ovation-identityaccess
 
