@@ -1,0 +1,142 @@
+@startuml
+
+package identity{
+
+class IdentityApplicationService{
+
+    //tenant()
+    + Tenant provisionTenant(ProvisionTenantCommand command);
+    + void activateTenant(ActivateTenantCommand aCommand);
+    + void deactivateTenant(DeactivateTenantCommand aCommand);
+
+    //user()
+    + offerRegistrationInvitation(OfferRegistrationInvitationCommand command);
+    + User registerUser(RegisterUserCommand aCommand);
+    + UserDescriptor authenticateUser(AuthenticateUserCommand aCommand);
+    + void changeUserContactInformation(ChangeContactInfoCommand aCommand);
+    + void changeUserPassword(ChangeUserPasswordCommand aCommand);
+
+    //group()
+    + Group provisionGroup(ProvisionGroupCommand aCommand);
+    + void addGroupToGroup(AddGroupToGroupCommand aCommand);
+    + void addUserToGroup(AddUserToGroupCommand aCommand);
+    + void removeGroupFromGroup(RemoveGroupFromGroupCommand aCommand);
+    + void removeUserFromGroup(RemoveUserFromGroupCommand aCommand);
+
+}
+
+class AccessApplicationService{
+
+    + Role provisionRole(ProvisionRoleCommand aCommand);
+    + void assignUserToRole(AssignUserToRoleCommand aCommand);
+    + void assignGroupToRole(AssignGroupToRoleCommand aCommand);
+    + void unassignGroupFromRole(UnassignGroupFromRoleCommand aCommand);
+    + void unassignUserFromRole(UnassignUserFromRoleCommand aCommand);
+
+}
+
+IdentityApplicationService -left-> Tenant
+AccessApplicationService -right-> Tenant
+
+class Tenant{
+    - TenantId tenantId;
+    - String name;
+    - String description;
+    - boolean active;
+    - Set<RegistrationInvitation> registrationInvitations;
+
+    + void activate();
+    + void deactivate();
+    + RegistrationInvitation offerRegistrationInvitation(description);
+    + void withdrawInvitation(String invitationId);
+    + Group provisionGroup(String name, String description);
+    + Role provisionRole(String name, String description);
+    + User registerUser(...);
+}
+
+class RegistrationInvitation{
+    - TenantId tenantId;
+    - String invitationId;
+    - String description;
+    - Date startingOn;
+    - Date until;
+}
+
+class User{
+    - TenantId tenantId;
+    - String username;
+    - String password;
+    - Enablement enablement;
+    - Person person;
+
+    + void changePassword(current,target);
+    + void changePersonalContactInformation(ContactInformation info);
+    + void changePersonalName(FullName name);
+    + void defineEnablement(Enablement enablement);
+}
+
+class Person{
+    - TenantId tenantId;
+    - ContactInformation contactInformation;
+    - FullName name;
+
+    + void changeContactInformation(ContactInformation info);
+    + void changeName(FullName name);
+}
+
+class Group{
+    - TenantId tenantId;
+    - String name;
+    - String description;
+    - Set<GroupMember> groupMembers;
+
+    + void addGroup(Group group);
+    + void addUser(User user);
+    + void removeGroup(Group group);
+    + void removeUser(User user);
+}
+
+class GroupMember{
+    - TenantId tenantId;
+    - String name; //Group or User name
+    - GroupMemberType type;
+}
+
+class Role{
+    - TenantId tenantId;
+    - String name;
+    - String description;
+    - boolean supportsNesting = true;
+    - Group group;
+
+    # void createInternalGroup();
+    + void assignGroup(Group group);
+    + void assignUser(User user);
+    + void unassignGroup(Group group);
+    + void unassignUser(User user);
+}
+
+Tenant *--> RegistrationInvitation
+Tenant *--> User
+User --> Person
+Tenant *--> Role
+Tenant *--> Group
+Role -right-> Group
+Group *--> GroupMember
+GroupMember -up-> User
+GroupMember -up-> Group
+
+
+}
+
+
+package collaboration{
+
+}
+
+
+package agilepm{
+
+}
+
+@enduml

@@ -15,7 +15,7 @@
 * Mysql + LevelDB：数据库存储数据
 
 
-## 项目结构
+## 项目组成
 
 #### zhacker-sample-ovation-identityaccess
 
@@ -41,3 +41,10 @@
 ![team](doc/images/team.png)
 ![product](doc/images/product.png)
 ![backlog](doc/images/backlog.png)
+
+
+## 项目设计
+
+#### 身份上下文的UML视图
+
+![identity-uml](doc/images/identity-uml.png)
