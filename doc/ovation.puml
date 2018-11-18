@@ -132,6 +132,100 @@ GroupMember -up-> Group
 
 package collaboration{
 
+class Forum{
+    - boolean closed;
+    - Creator creator;
+    - String description;
+    - String exclusiveOwner;
+    - ForumId forumId;
+    - Moderator moderator;
+    - String subject;
+    - Tenant tenant;
+
+    + void assignModerator(Moderator aModerator);
+    + void changeDescription(String aDescription);
+    + void changeSubject(String aSubject);
+    + void close();
+    + void reopen();
+    + void moderatePost(...);
+    + Discussion startDiscussion(...);
+}
+
+class Discussion{
+    - Author author;
+    - boolean closed;
+    - DiscussionId discussionId;
+    - String exclusiveOwner;
+    - ForumId forumId;
+    - String subject;
+    - Tenant tenant;
+
+    + void close();
+    + void reopen(); 
+    + Post post(...);   
+  
+}
+
+class Post{
+    - Author author;
+    - String bodyText;
+    - Date changedOn;
+    - Date createdOn;
+    - DiscussionId discussionId;
+    - ForumId forumId;
+    - PostId postId;
+    - PostId replyToPostId;
+    - String subject;
+    - Tenant tenant;
+    
+    + void alterPostContent(String aSubject, String aBodyText);
+}
+
+Forum *--> Discussion
+Discussion *--> Post
+Post --> Post
+
+class Calendar{
+    - CalendarId calendarId;
+    - String description;
+    - String name;
+    - Owner owner;
+    - Set<CalendarSharer> sharedWith;
+    - Tenant tenant;
+    
+    + void changeDescription(String aDescription);
+    + void rename(String aName);
+    + CalendarEntry scheduleCalendarEntry(...);
+    + void shareCalendarWith(CalendarSharer aCalendarSharer);
+    + void unshareCalendarWith(CalendarSharer aCalendarSharer);
+}
+
+class CalendarSharer{
+    - Participant participant;
+}
+
+class CalendarEntry{
+    - Alarm alarm;
+    - CalendarEntryId calendarEntryId;
+    - CalendarId calendarId;
+    - String description;
+    - Set<Participant> invitees;
+    - String location;
+    - Owner owner;
+    - Repetition repetition;
+    - Tenant tenant;
+    - TimeSpan timeSpan;
+
+    + void changeDescription(String aDescription);
+    + void invite(Participant aParticipant);
+    + void uninvite(Participant aParticipant);
+    + void relocate(String aLocation);
+    + void reschedule(...);
+}
+
+Calendar *--> CalendarSharer
+Calendar *--> CalendarEntry
+
 }
 
 

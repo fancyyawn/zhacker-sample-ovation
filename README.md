@@ -45,6 +45,10 @@
 
 ## 项目设计
 
-#### 身份上下文的UML视图
+#### 身份上下文UML
 
 ![identity-uml](doc/images/identity-uml.png)
+
+#### 协作上下文UML
+
+![collaboration-uml](doc/images/collaboration-uml.png)
